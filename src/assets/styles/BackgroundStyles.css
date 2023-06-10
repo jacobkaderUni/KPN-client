@@ -1,0 +1,22 @@
+.background-component {
+  background-color: #d6d7d9;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* center horizontally */
+  align-items: center; /* align to the top */
+}
+
+.logo {
+  /* display: flex;
+  /* justify-content: center; /* center horizontally */
+  /* align-items: flex-start; /* align to the top */
+}
+
+.children-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
