@@ -6,11 +6,13 @@ import { useNavigate } from "react-router-dom";
 import Btn from "../components/Btn";
 import InptSI from "../components/InptSI";
 import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
+import { toast } from "react-toastify";
 
 function SearchScreen() {
   const navigate = useNavigate();
   const [inputType, setInputType] = useState<string>("number");
   const [inputValue, setInputValue] = useState<string>("");
+  let clientFound = false;
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setInputType(event.target.value);
@@ -21,27 +23,67 @@ function SearchScreen() {
     querySnapshot.forEach((doc) => {
       const docData = doc.data();
       if (inputType === "number" && docData.number === inputValue) {
+        clientFound = true;
+        toast.success("Found client, " + docData.first_name, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         navigate("/verification", {
           state: { inputValue: docData.number },
         });
-        console.log("Client found by number");
       } else if (inputType === "email" && docData.email === inputValue) {
+        clientFound = true;
+        toast.success("Found client, " + docData.first_name, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         navigate("/verification", {
           state: { inputValue: docData.number },
         });
-        console.log("Client found by email");
       } else if (
         inputType === "accountid" &&
         docData.account_id === inputValue
       ) {
+        clientFound = true;
+        toast.success("Found client, " + docData.first_name, {
+          position: "bottom-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         navigate("/verification", {
           state: { inputValue: docData.number },
         });
-        console.log("Client found by account id");
-      } else {
-        console.log("client not found");
       }
     });
+    if (!clientFound) {
+      toast.warning("Client not found, try again", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   return (

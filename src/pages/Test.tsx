@@ -1,7 +1,5 @@
 import React from "react";
 import Background from "../components/Background";
-import Btn from "../components/Btn";
-import InptSI from "../components/InptSI";
 import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
 
 function Test() {
