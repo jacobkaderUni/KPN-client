@@ -5,13 +5,16 @@ import { useNavigate } from "react-router-dom";
 import Btn from "../components/Btn";
 import InptSI from "../components/InptSI";
 import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
-
+import { toast } from "react-toastify";
 interface IForm {
   id: number | string;
   password: string;
 }
 
 function Home() {
+  function storeLoginState() {
+    localStorage.setItem("isLoggedIn", "true");
+  }
   const navigate = useNavigate();
   const [form, setForm] = useState<IForm>({
     id: "",
@@ -26,8 +29,29 @@ function Home() {
     if (employee) {
       console.log(employee);
       console.log("welcome " + employee.name);
+      storeLoginState();
       navigate("/search");
+      toast.success("Welcome " + employee.name, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
+      toast.warning("User not found!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       console.log("not found");
     }
   };
@@ -57,26 +81,3 @@ function Home() {
 }
 
 export default Home;
-
-{
-  /* <input
-          name="userid"
-          placeholder="User id"
-          type="intiger"
-          required
-          value={form.id}
-          onChange={(text) => {
-            setForm({ ...form, id: text.target.value });
-          }}
-        />
-        <input
-          name="password"
-          placeholder="Password"
-          type="password"
-          required
-          value={form.password}
-          onChange={(text) => {
-            setForm({ ...form, password: text.target.value });
-          }}
-        /> */
-}

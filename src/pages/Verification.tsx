@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import Background from "../components/Background";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Btn from "../components/Btn";
 import InptSI from "../components/InptSI";
 import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
+import { toast } from "react-toastify";
 
 type FormState = {
   dob: string;
@@ -42,10 +43,8 @@ function Verification() {
 
   useEffect(() => {
     if (isLoading) {
-      console.log("notworkijg");
     }
   }, [isLoading, value]);
-  const [error, setError] = useState<string | null>(null); //take care of error handling afterwards!
 
   const compareFormFields = (docData: Client) => {
     return (
@@ -61,9 +60,29 @@ function Verification() {
       const docData = doc.data() as Client;
       if (docData.number === value) {
         if (compareFormFields(docData)) {
-          console.log("succeess");
+          toast.success(docData.first_name + " successfully verified!", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
           navigate("/account", {
             state: { inputValue: value },
+          });
+        } else {
+          toast.warning("Answer not correct, try again! ", {
+            position: "bottom-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
           });
         }
       }

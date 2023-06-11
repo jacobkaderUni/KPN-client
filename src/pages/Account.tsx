@@ -7,10 +7,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Btn from "../components/Btn";
 import InptSI from "../components/InptSI";
 import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
-
-type clientNumberProp = {
-  clientNumber: string;
-};
+import { toast } from "react-toastify";
 
 type Client = {
   number: string;
@@ -27,7 +24,6 @@ type Client = {
   account_id: string;
   start_date: string;
   nick_name: string;
-  [key: string]: any;
 };
 
 type Customer = {
@@ -42,7 +38,6 @@ type Customer = {
     postcode: string;
     country: string;
   };
-  [key: string]: any;
 };
 
 function Account() {
@@ -66,10 +61,7 @@ function Account() {
     },
   });
 
-  // useQuery
-
   const fetchClient = async () => {
-    console.log(value);
     const querySnapshot = await getDocs(collection(db, "Clients"));
     querySnapshot.forEach((doc) => {
       const docData = doc.data();
@@ -98,9 +90,27 @@ function Account() {
   ) => {
     try {
       await updateDoc(doc(db, "Clients", clientId), updatedDetails);
-      console.log("Document successfully updated!");
+      toast.success("Details successfully updated!", {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (error) {
-      console.error("Error updating document: ", error);
+      toast.warning("Error: " + error, {
+        position: "bottom-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
@@ -143,15 +153,6 @@ function Account() {
             </div>
             <div className="account-input-container">
               <a>Last Name</a>{" "}
-              {/* <input
-                name="lastname"
-                placeholder=""
-                type="string"
-                value={account.last_name}
-                onChange={(text) =>
-                  setAccount({ ...account, last_name: text.target.value })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -164,15 +165,6 @@ function Account() {
             </div>
             <div className="account-input-container">
               <a>Date of Birth</a>{" "}
-              {/* <input
-                name="dob"
-                placeholder=""
-                type="string"
-                value={account.dob}
-                onChange={(text) =>
-                  setAccount({ ...account, dob: text.target.value })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -185,15 +177,6 @@ function Account() {
             </div>
             <div className="account-input-container">
               <a>Email</a>{" "}
-              {/* <input
-                name="email"
-                placeholder=""
-                type="string"
-                value={account.email}
-                onChange={(text) =>
-                  setAccount({ ...account, email: text.target.value })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -209,18 +192,6 @@ function Account() {
             {" "}
             <div className="account-input-container">
               <a>Street</a>{" "}
-              {/* <input
-                name="street"
-                placeholder=""
-                type="string"
-                value={account.address.street}
-                onChange={(text) =>
-                  setAccount({
-                    ...account,
-                    address: { ...account.address, street: text.target.value },
-                  })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -236,18 +207,6 @@ function Account() {
             </div>
             <div className="account-input-container">
               <a>City</a>{" "}
-              {/* <input
-                name="city"
-                placeholder=""
-                type="string"
-                value={account.address.city}
-                onChange={(text) =>
-                  setAccount({
-                    ...account,
-                    address: { ...account.address, city: text.target.value },
-                  })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -263,21 +222,6 @@ function Account() {
             </div>
             <div className="account-input-container">
               <a>Postcode</a>{" "}
-              {/* <input
-                name="postcode"
-                placeholder=""
-                type="string"
-                value={account.address.postcode}
-                onChange={(text) =>
-                  setAccount({
-                    ...account,
-                    address: {
-                      ...account.address,
-                      postcode: text.target.value,
-                    },
-                  })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -296,18 +240,6 @@ function Account() {
             </div>
             <div className="account-input-container">
               <a>country</a>{" "}
-              {/* <input
-                name="country"
-                placeholder=""
-                type="string"
-                value={account.address.country}
-                onChange={(text) =>
-                  setAccount({
-                    ...account,
-                    address: { ...account.address, country: text.target.value },
-                  })
-                }
-              /> */}
               <InptSI
                 ph=""
                 style2="inpt-sml"
@@ -323,8 +255,6 @@ function Account() {
             </div>
           </div>
         </div>
-        {/* <button onClick={handleUpdateClient}>save</button>
-        <button onClick={goBack}>cancel</button> */}
         <Btn text={"Verify"} style={"btn-med"} click={handleUpdateClient} />
         <Btn text={"Cancel"} style={"btn-cancel"} click={goBack} />
       </div>
