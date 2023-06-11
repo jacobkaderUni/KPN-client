@@ -1,15 +1,13 @@
 import React from "react";
-// import Home from "./pages/Home";
-// import SearchScreen from "./pages/Search";
-import Verification from "./pages/Verification";
-function App() {
+import "firebase/firestore";
+import Main from "./main";
+
+export default function App() {
   return (
     <>
-      {/* <Home /> */}
-      {/* <SearchScreen /> */}
-      <Verification clientNumber="060000001" />
+      <div>
+        <Main />
+      </div>
     </>
   );
 }
-
-export default App;
