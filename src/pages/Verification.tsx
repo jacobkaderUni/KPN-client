@@ -3,6 +3,9 @@ import Background from "../components/Background";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import Btn from "../components/Btn";
+import InptSI from "../components/InptSI";
+import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
 
 type FormState = {
   dob: string;
@@ -73,48 +76,48 @@ function Verification() {
   return (
     <Background>
       <div>
-        <a>Security Verification Check</a>
-        <div>
-          <a>Date of birth</a>
-          <input
-            name="dob"
-            placeholder="yyyy-mm-dd"
-            type="string"
-            required
+        <div className="search-txt">Security Verification Check</div>
+        <div className="verify-dob">
+          <div className="verify-txt">Date of birth</div>
+
+          <InptSI
+            ph="YYYY-MM-DD"
+            style2="inpt-lrg-verify"
+            type=""
             value={form.dob}
             onChange={(text) => {
               setForm({ ...form, dob: text.target.value });
             }}
           />
         </div>
-        <div>
-          <a>When did you join KPN?</a>
-          <input
-            name="startdate"
-            placeholder="YYYY"
-            type="string"
-            required
+        <div className="verify-sd">
+          <div className="verify-txt">When did you join KPN?</div>
+
+          <InptSI
+            ph="YYYY"
+            style2="inpt-lrg-verify"
+            type=""
             value={form.start_date}
             onChange={(text) =>
               setForm({ ...form, start_date: text.target.value })
             }
           />
         </div>
-        <div>
-          <a>Nickname</a>
-          <input
-            name="nickname"
-            placeholder="your nickname"
-            type="string"
-            required
+        <div className="verify-nn">
+          <div className="verify-txt">Nickname</div>
+          <InptSI
+            ph="name"
+            style2="inpt-lrg-verify"
+            type=""
             value={form.nick_name}
             onChange={(text) =>
               setForm({ ...form, nick_name: text.target.value })
             }
           />
         </div>
-        <button onClick={handleVerifyClient}>Verify</button>
-        <button onClick={goBack}>Cancel</button>
+
+        <Btn text={"Verify"} style={"btn-med"} click={handleVerifyClient} />
+        <Btn text={"Cancel"} style={"btn-cancel"} click={goBack} />
       </div>
     </Background>
   );
