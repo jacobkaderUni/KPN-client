@@ -1,24 +1,14 @@
 import React, { useState } from "react";
 import Background from "../components/Background";
-import customers from "/Users/jacobkader/Documents/GitHub/KPN-client/src/services/customers.json";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
+import Btn from "../components/Btn";
+import InptSI from "../components/InptSI";
+import "/Users/jacobkader/Documents/GitHub/KPN-client/src/assets/styles/BackgroundStyles.css";
 
-interface Customer {
-  number: string;
-  first_name: string;
-  last_name: string;
-  dob: string;
-  email: string;
-  address: {
-    street: string;
-    city: string;
-    postcode: string;
-    country: string;
-  };
-  account_id: string;
-  start_date: string;
-  nick_name: string;
-}
 function SearchScreen() {
+  const navigate = useNavigate();
   const [inputType, setInputType] = useState<string>("number");
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -26,50 +16,62 @@ function SearchScreen() {
     setInputType(event.target.value);
   };
 
-  const handleSearchCustomer = () => {
-    const customer = customers.find((customer: Customer) => {
-      switch (inputType) {
-        case "number":
-          return customer.number === inputValue;
-        case "email":
-          return customer.email === inputValue;
-        case "accountid":
-          return customer.account_id === inputValue;
-        default:
-          return false;
+  const handleSearchCustomer = async () => {
+    const querySnapshot = await getDocs(collection(db, "Clients"));
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data();
+      if (inputType === "number" && docData.number === inputValue) {
+        navigate("/verification", {
+          state: { inputValue: docData.number },
+        });
+        console.log("Client found by number");
+      } else if (inputType === "email" && docData.email === inputValue) {
+        navigate("/verification", {
+          state: { inputValue: docData.number },
+        });
+        console.log("Client found by email");
+      } else if (
+        inputType === "accountid" &&
+        docData.account_id === inputValue
+      ) {
+        navigate("/verification", {
+          state: { inputValue: docData.number },
+        });
+        console.log("Client found by account id");
+      } else {
+        console.log("client not found");
       }
     });
-
-    if (customer) {
-      console.log(customer);
-      console.log("welcome " + customer.first_name);
-    } else {
-      console.log(inputType);
-      console.log("not found");
-    }
   };
+
   return (
     <Background>
       <div>
-        <a>Search for clients</a>
-        <select defaultValue="number" onChange={handleSelectChange}>
+        <div className="search-txt">Search for clients</div>
+
+        <select
+          defaultValue="number"
+          onChange={handleSelectChange}
+          className="select-type"
+        >
           <option value="number">number</option>
           <option value="email">email</option>
           <option value="accountid">Account id</option>
         </select>
-        <input
-          name="inputValue"
-          placeholder={inputType}
-          type="string"
-          required
-          value={inputValue}
-          onChange={(text) => {
-            setInputValue(text.target.value);
-          }}
-        />
-        <button onClick={handleSearchCustomer}>Search</button>
-      </div>{" "}
-      <div>recent clients</div>
+        <div>
+          {" "}
+          <InptSI
+            ph={inputType}
+            style2="inpt-lrg-srch"
+            type=""
+            value={inputValue}
+            onChange={(text) => {
+              setInputValue(text.target.value);
+            }}
+          />
+        </div>
+        <Btn text={"Search"} style={"btn-lrg"} click={handleSearchCustomer} />
+      </div>
     </Background>
   );
 }

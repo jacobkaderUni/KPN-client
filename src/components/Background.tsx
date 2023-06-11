@@ -9,7 +9,10 @@ const Background: React.FC<BackgroundProps> = ({ children }) => {
   return (
     <div className="background-component">
       <img src={logo} alt="logo" className="logo" />
-      <div className="children-container">{children}</div>
+      <div className="new-container">
+        {" "}
+        <div className="children-container">{children}</div>
+      </div>
     </div>
   );
 };
