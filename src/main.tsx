@@ -5,6 +5,7 @@ import SearchScreen from "./pages/Search";
 import Verification from "./pages/Verification";
 import Account from "./pages/Account";
 import Test from "./pages/Test";
+
 const Main = () => {
   return (
     <Routes>
