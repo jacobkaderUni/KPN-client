@@ -1,45 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Background from "../components/Background";
-import customers from "/Users/jacobkader/Documents/GitHub/KPN-client/src/services/customers.json";
-
-type clientNumberProp = {
-  clientNumber: string;
-};
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 type FormState = {
   dob: string;
   start_date: string;
   nick_name: string;
 };
-function Verification({ clientNumber }: clientNumberProp) {
+
+type Client = {
+  number: string;
+  first_name: string;
+  last_name: string;
+  dob: string;
+  email: string;
+  address: {
+    street: string;
+    city: string;
+    postcode: string;
+    country: string;
+  };
+  account_id: string;
+  start_date: string;
+  nick_name: string;
+};
+function Verification() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const value = location.state.inputValue;
   const [form, setForm] = useState<FormState>({
     dob: "",
     start_date: "",
     nick_name: "",
   });
+  const [isLoading] = useState(false);
 
+  useEffect(() => {
+    if (isLoading) {
+      console.log("notworkijg");
+    }
+  }, [isLoading, value]);
   const [error, setError] = useState<string | null>(null); //take care of error handling afterwards!
 
-  const handleVerifyClient = () => {
-    const clientVerified = customers.find(
-      (customer) => customer.number === clientNumber
+  const compareFormFields = (docData: Client) => {
+    return (
+      docData.dob === form.dob &&
+      docData.start_date === form.start_date &&
+      docData.nick_name === form.nick_name
     );
-    if (clientVerified) {
-      if (
-        clientVerified.dob === form.dob &&
-        clientVerified.start_date === form.start_date &&
-        clientVerified.nick_name === form.nick_name
-      ) {
-        setError(null);
-        console.log("VERIFIED!");
-      } else {
-        setError("Incorrect date of birth, start date, or nickname.");
-        console.log("WRONG, TRY AGAIN!");
+  };
+
+  const handleVerifyClient = async () => {
+    const querySnapshot = await getDocs(collection(db, "Clients"));
+    querySnapshot.forEach((doc) => {
+      const docData = doc.data() as Client;
+      if (docData.number === value) {
+        if (compareFormFields(docData)) {
+          console.log("succeess");
+          navigate("/account", {
+            state: { inputValue: value },
+          });
+        }
       }
-    } else {
-      setError("Client not found!");
-      console.log("error");
-    }
+    });
+  };
+
+  const goBack = () => {
+    navigate("/search");
   };
   return (
     <Background>
@@ -85,7 +114,7 @@ function Verification({ clientNumber }: clientNumberProp) {
           />
         </div>
         <button onClick={handleVerifyClient}>Verify</button>
-        <button>Cancel</button>
+        <button onClick={goBack}>Cancel</button>
       </div>
     </Background>
   );
