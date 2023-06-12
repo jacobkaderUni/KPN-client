@@ -25,7 +25,7 @@ function SearchScreen() {
       if (inputType === "number" && docData.number === inputValue) {
         clientFound = true;
         toast.success("Found client, " + docData.first_name, {
-          position: "bottom-center",
+          position: "top-left",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -40,7 +40,7 @@ function SearchScreen() {
       } else if (inputType === "email" && docData.email === inputValue) {
         clientFound = true;
         toast.success("Found client, " + docData.first_name, {
-          position: "bottom-center",
+          position: "top-left",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -58,7 +58,7 @@ function SearchScreen() {
       ) {
         clientFound = true;
         toast.success("Found client, " + docData.first_name, {
-          position: "bottom-center",
+          position: "top-left",
           autoClose: 2000,
           hideProgressBar: false,
           closeOnClick: true,
@@ -74,7 +74,7 @@ function SearchScreen() {
     });
     if (!clientFound) {
       toast.warning("Client not found, try again", {
-        position: "bottom-center",
+        position: "top-left",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,

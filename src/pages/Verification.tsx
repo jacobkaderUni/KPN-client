@@ -61,7 +61,7 @@ function Verification() {
       if (docData.number === value) {
         if (compareFormFields(docData)) {
           toast.success(docData.first_name + " successfully verified!", {
-            position: "bottom-center",
+            position: "top-left",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
@@ -75,7 +75,7 @@ function Verification() {
           });
         } else {
           toast.warning("Answer not correct, try again! ", {
-            position: "bottom-center",
+            position: "top-left",
             autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,

@@ -91,7 +91,7 @@ function Account() {
     try {
       await updateDoc(doc(db, "Clients", clientId), updatedDetails);
       toast.success("Details successfully updated!", {
-        position: "bottom-center",
+        position: "top-left",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -102,7 +102,7 @@ function Account() {
       });
     } catch (error) {
       toast.warning("Error: " + error, {
-        position: "bottom-center",
+        position: "top-left",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,

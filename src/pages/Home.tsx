@@ -32,7 +32,7 @@ function Home() {
       storeLoginState();
       navigate("/search");
       toast.success("Welcome " + employee.name, {
-        position: "bottom-center",
+        position: "top-left",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -43,7 +43,7 @@ function Home() {
       });
     } else {
       toast.warning("User not found!", {
-        position: "bottom-center",
+        position: "top-left",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
